@@ -54,3 +54,7 @@ btn.addEventListener('click',()=>console.log('hello'))
 ```
 - In this example the event listener just _waiting_ for a button click event and wont doing anything on the _background_ so its isnt asynchronous.
 
+## AJAX - Asynchronous javaScript and XML
+- Allow us to communicate with remote web servers in an asynchronous way . With AJAX calls we can request data from web servers dynamically.
+- With out reloding the page we can use that data dynamically
+
