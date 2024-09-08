@@ -16,7 +16,7 @@ console.log('Line 3');
 ## What is Asynchronous
 
 - Executing code without waiting for previous line to finish .Coordinating behavior   of program over a period of time _(not occuring at the same time)_
-- Asynchronous is _non-blocking_ .It wont block another line of code. It will run on the _backround _
+- Asynchronous is _non-blocking_ .It wont block another line of code. It will run on the _backround_
 - Execution _does'nt_ wait for asynchronous code
 - For example callback function with _timer_ is asynchronous.
 
@@ -52,7 +52,7 @@ const btn = document.querySelector('.btn')
 btn.addEventListener('click',()=>console.log('hello'))
 
 ```
-- In this example the event listener just _waiting_ for a button click event and wont doing anything on the _background_ so its isnt asynchronous.
+- In this example the event listener just _waiting_ for a button click event and wont doing anything on the _background_ so it isnt asynchronous.
 
 ## AJAX - Asynchronous javaScript and XML
 - Allow us to communicate with remote web servers in an asynchronous way . With AJAX calls we can request data from web servers dynamically.
