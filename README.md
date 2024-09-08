@@ -16,7 +16,7 @@ console.log('Line 3');
 ## What is Asynchronous
 
 - Executing code without waiting for previous line to finish .Coordinating behavior   of program over a period of time _(not occuring at the same time)_
-- Asynchronous is _non-blocking_ .It wont block another line of code. It will run on the _backround _
+- Asynchronous is _non-blocking_ .It wont block another line of code. It will run on the _backround_
 - Execution _does'nt_ wait for asynchronous code
 - For example callback function with _timer_ is asynchronous.
 
