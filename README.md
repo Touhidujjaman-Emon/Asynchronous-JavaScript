@@ -52,5 +52,5 @@ const btn = document.querySelector('.btn')
 btn.addEventListener('click',()=>console.log('hello'))
 
 ```
-- In this example the event listener just _waiting_ for a button click event and wont doing anything on the _background_ so its isnt asynchronous.
+- In this example the event listener just _waiting_ for a button click event and wont doing anything on the _background_ so it isnt asynchronous.
 
