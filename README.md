@@ -63,7 +63,7 @@ btn.addEventListener('click',()=>console.log('hello'))
 - online/web API's : Application running on server , that receives resquest for data and send data as response
 - Most API's use JSON data formate nowadays . When tiggers used to smoke (long time ago) , people used to use XML formate to transmit data on the web . Thats where the name AJAX came from. and it isnt changed till now.
 
-### Old way of doing AJAX call
+## Old way of doing AJAX call
 
 ```js 
 
@@ -78,8 +78,8 @@ btn.addEventListener('click',()=>console.log('hello'))
  })
 
 ```
-- Call  open('method','URL' async)  _Initializing_ or _Opening_ the request to retrive the data from url.
-- calling send() to request the server and _fetch_ data from it
+- Calling  open('method','URL' async)  _Initializing_ or _Opening_ the request to retrive the data from url.
+- Calling send() to request the server and _fetch_ data from it
 ```js
  const request = new XMLHttpRequest();
  request.open('GET','https://restcountries.com/v3.1/name/bangladesh');
