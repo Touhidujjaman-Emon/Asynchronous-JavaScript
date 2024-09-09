@@ -78,12 +78,12 @@ btn.addEventListener('click',()=>console.log('hello'))
  })
 
 ```
-- Calling  open('method','URL' async)  _Initializing_ or _Opening_ the request to retrive the data from url.
+- Calling  open('method' , 'URL' , async)  _Initializing_ or _Opening_ the request to retrive the data from url.
 - Calling send() to request the server and _fetch_ data from it
 ```js
  const request = new XMLHttpRequest();
  request.open('GET','https://restcountries.com/v3.1/name/bangladesh');
  request.send();
 ```
-- calling send() to request the server and _fetch_ data from it
+
 
