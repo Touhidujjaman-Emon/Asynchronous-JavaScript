@@ -58,3 +58,7 @@ btn.addEventListener('click',()=>console.log('hello'))
 - Allow us to communicate with remote web servers in an asynchronous way . With AJAX calls we can request data from web servers dynamically.
 - With out reloding the page we can use that data dynamically
 
+## API - Application Programing Interface
+- Piece of software that can be used by another piece of software, In order to allow _applications to talk to each other_
+- online/web API's : Application running on server , that receives resquest for data and send data as response
+- Most API's use JSON data formate nowadays . When tiggers used to smoke (long time ago) , people used to use XML formate to transmit data on the web . Thats where the name AJAX came from. and it isnt changed till now.
