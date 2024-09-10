@@ -2,10 +2,10 @@
 
 ## What is synchronous
 
-- Executing code line by line means _synchronous_
-- Each line of code _wait_ for previous line to finish
-- Long running code _block_ execution of the next code
-- Like _alert_ notification . If I dont click _ok_ it wont execute next line of code.suppose i dont press ok for 5 sec then next line of code wont run for 5 sec.
+- Executing code line by line means **synchronous**
+- Each line of code **wait** for previous line to finish
+- Long running code **block** execution of the next code
+- Like **alert** notification . If I dont click **ok** it wont execute next line of code.suppose i dont press ok for 5 sec then next line of code wont run for 5 sec.
 
 ```js
 console.log('Line 1');
@@ -15,10 +15,10 @@ console.log('Line 3');
 
 ## What is Asynchronous
 
-- Executing code without waiting for previous line to finish .Coordinating behavior   of program over a period of time _(not occuring at the same time)_
-- Asynchronous is _non-blocking_ .It wont block another line of code. It will run on the _backround_
-- Execution _does'nt_ wait for asynchronous code
-- For example callback function with _timer_ is asynchronous.
+- Executing code without waiting for previous line to finish .Coordinating behavior   of program over a period of time **(not occuring at the same time)**
+- Asynchronous is **non-blocking** .It wont block another line of code. It will run on the **backround**
+- Execution **does'nt** wait for asynchronous code
+- For example callback function with **timer** is asynchronous.
 
 ```js
 const text = document.querySelector('p');
@@ -29,9 +29,9 @@ setTimeout(function () {
 text.style.color = 'red';
 ```
 
-- setTimeout function will be running on the background without blocking any code.And callback will run after _timer(5sec)_.Though it _isn't_ the last line of code but it will execute after all other line of code in this example.That basically means an action was deferred into the future in order to make the code _non-blocking_
+- setTimeout function will be running on the background without blocking any code.And callback will run after **timer(5sec)**.Though it **isn't** the last line of code but it will execute after all other line of code in this example.That basically means an action was deferred into the future in order to make the code **non-blocking**
 
-**note** : callback function and addEventListener alone do _NOT_ make code asynchronous.
+**note** : callback function and addEventListener alone do **NOT** make code asynchronous.
 
 - For example:
 ```js
@@ -44,7 +44,7 @@ img.addEventListener('load',function(){
 p.style.width ='300px'
 
 ``` 
-- Here _img.src_ is asynchronous . Because it will load the _src_ in the _background_ without blocking any code and the event listener will listen for _load_  after the img is fully loaded and then the _call back function_ will be called. So the callback funtion alone is'nt making the code asynchronous but _img.src_ is asynchronous.
+- Here **img.src** is asynchronous . Because it will load the **src** in the **background** without blocking any code and the event listener will listen for **load**  after the img is fully loaded and then the **call back function** will be called. So the callback funtion alone is'nt making the code asynchronous but **img.src** is asynchronous.
 
 ```js
 
@@ -52,14 +52,14 @@ const btn = document.querySelector('.btn')
 btn.addEventListener('click',()=>console.log('hello'))
 
 ```
-- In this example the event listener just _waiting_ for a button click event and wont doing anything on the _background_ so it isnt asynchronous.
+- In this example the event listener just **waiting** for a button click event and wont doing anything on the **background** so it isnt asynchronous.
 
 ## AJAX - Asynchronous javaScript and XML
 - Allow us to communicate with remote web servers in an asynchronous way . With AJAX calls we can request data from web servers dynamically.
 - With out reloding the page we can use that data dynamically
 
 ## API - Application Programing Interface
-- Piece of software that can be used by another piece of software, In order to allow _applications to talk to each other_
+- Piece of software that can be used by another piece of software, In order to allow **applications to talk to each other**
 - online/web API's : Application running on server , that receives resquest for data and send data as response
 - Most API's use JSON data formate nowadays . When tiggers used to smoke (long time ago) , people used to use XML formate to transmit data on the web . Thats where the name AJAX came from. and it isnt changed till now.
 
@@ -78,12 +78,53 @@ btn.addEventListener('click',()=>console.log('hello'))
  })
 
 ```
-- Calling  open('method' , 'URL' , async)  _Initializing_ or _Opening_ the request to retrive the data from url.
-- Calling send() to request the server and _fetch_ data from it
+- Calling  open('method' , 'URL' , async)  **Initializing** or **Opening** the request to retrive the data from url.
+- Calling send() to request the server and **fetch** data from it
 ```js
  const request = new XMLHttpRequest();
  request.open('GET','https://restcountries.com/v3.1/name/bangladesh');
  request.send();
 ```
+## Callback Hell
+- If we want to sequence AJAX calls we will have **nested callbacks** inside nested callbacks if we want to sequence 10 callbacks we will have 10 nested callbacks insie on another.
+- Example: Here i want get data of 3 neighbouring in **sequence** and asynchronous
+```js
+ const request2 = new XMLHttpRequest();
+    request2.open('GET', `https://restcountries.com/v3.1/alpha/${neighbour}`);
+    request2.send();
+
+    request2.addEventListener('load', function () {
+      const [data2] = JSON.parse(this.responseText);
+      console.log(data2);
+
+      renderCountry(data2, 'neighbour');
+
+      // AJAX call country #
+      const request2 = new XMLHttpRequest();
+      request2.open('GET', `https://restcountries.com/v3.1/alpha/${neighbour}`);
+      request2.send();
+
+      request2.addEventListener('load', function () {
+        const [data3] = JSON.parse(this.responseText);
+        console.log(data3);
+
+        renderCountry(data3, 'neighbour');
+      });
+    });
+  ```
+  - But it doesnt have to be AJAX calls **any asynchronous** code **with callbacks** function have to be nested same way for sequence.And it is bad practice to avoid this we have **Promises**
+  - For Example:
+  ```js
+   setTimeout(()=> {console.log('callback hell')
+    setTimeout(()=> {console.log('callback hell')
+      setTimeout(()=> {console.log('callback hell')
+        setTimeout(()=> {console.log('callback hell')
+          setTimeout(()=> {console.log('callback hell')
+          },1000)
+        },1000)
+      },1000)
+    },1000)
+   },1000)
+   ```
 
 
