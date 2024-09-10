@@ -5,7 +5,7 @@
 - Executing code line by line means **synchronous**
 - Each line of code **wait** for previous line to finish
 - Long running code **block** execution of the next code
-- Like **alert** notification . If I dont click **ok** it wont execute next line of code.suppose i dont press ok for 5 sec then next line of code wont run for 5 sec.
+- Like **alert** notification . If I dont click **Ok** it wont execute next line of code.suppose i dont press ok for 5 sec then next line of code wont run for 5 sec.
 
 ```js
 console.log('Line 1');
@@ -15,9 +15,9 @@ console.log('Line 3');
 
 ## What is Asynchronous
 
-- Executing code without waiting for previous line to finish .Coordinating behavior   of program over a period of time **(not occuring at the same time)**
+- Executing code without waiting for previous line to finish .Coordinating behavior of program over a period of time **(not occuring at the same time)**
 - Asynchronous is **non-blocking** .It wont block another line of code. It will run on the **backround**
-- Execution **does'nt** wait for asynchronous code
+- Execution of next line of code **does'nt** wait for asynchronous code
 - For example callback function with **timer** is asynchronous.
 
 ```js
