@@ -89,17 +89,39 @@ btn.addEventListener('click',()=>console.log('hello'))
 - If we want to sequence AJAX calls we will have **nested callbacks** inside nested callbacks if we want to sequence 10 callbacks we will have 10 nested callbacks insie on another.
 - Example: Here i want get data of 3 neighbouring in **sequence** and asynchronous
 ```js
- const request2 = new XMLHttpRequest();
-    request2.open('GET', `https://restcountries.com/v3.1/alpha/${neighbour}`);
-    request2.send();
 
-    request2.addEventListener('load', function () {
-      const [data2] = JSON.parse(this.responseText);
-      console.log(data2);
+  const getCountryAndNeighbour = function(country){
+   //  AJAX call country 1
+  const request = new XMLHttpRequest();
+   request.open('GET',`https://restcountries.com/v3.1/name/${country}`);
+   request.send();
+  
+   request.addEventListener('load' , function(){
+      const [data] = JSON.parse(this.responseText)
+      console.log(data);
+  
+      // Render country 1
+      renderCountry(data)
+      
+      // Get neighbour country
+      const neighbour = data.borders?.[0]
 
-      renderCountry(data2, 'neighbour');
+      // AJAX call country 2
+      const request2 = new XMLHttpRequest();
+      request2.open('GET',`https://restcountries.com/v3.1/alpha/${neighbour}`);
+      request2.send();
 
-      // AJAX call country #
+      request2.addEventListener('load',function(){
+        const [data2] = JSON.parse(this.responseText)
+        console.log(data2);
+        
+      // Render country 2
+      renderCountry(data2,"neighbour")
+
+      // Get neighbour country 2
+      const neighbour = data2.borders?.[0]
+
+       // AJAX call country 3
       const request2 = new XMLHttpRequest();
       request2.open('GET', `https://restcountries.com/v3.1/alpha/${neighbour}`);
       request2.send();
@@ -108,9 +130,13 @@ btn.addEventListener('click',()=>console.log('hello'))
         const [data3] = JSON.parse(this.responseText);
         console.log(data3);
 
+       // Render country 3
         renderCountry(data3, 'neighbour');
       });
-    });
+        
+      })
+      
+   })}
   ```
   - But it doesnt have to be AJAX calls **any asynchronous** code **with callbacks** function have to be nested same way for sequence.And it is bad practice to avoid this we have **Promises**
   - For Example:
