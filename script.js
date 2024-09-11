@@ -40,7 +40,7 @@ const request = new XMLHttpRequest();
  countryData('pakistan');
  countryData('USA');*/
 
-/*const renderCountry = function (data, className = '') {
+const renderCountry = function (data, className = '') {
   //Getting the language dynamically
   const language =
     Object.values(data.languages)[0] !== 'English'
@@ -68,7 +68,7 @@ const request = new XMLHttpRequest();
   countriesContainer.style.opacity = 1;
 };
 
-const getCountryAndNeighbour = function (country) {
+/*const getCountryAndNeighbour = function (country) {
   //  AJAX call country 1
   const request = new XMLHttpRequest();
   request.open('GET', `https://restcountries.com/v3.1/name/${country}`);
@@ -103,8 +103,11 @@ getCountryAndNeighbour('usa');
 */
 
 // new way of AJAX call
-const request = fetch('https://restcountries.com/v3.1/name/bangladesh');
-console.log(request);
+// fetch(`https://restcountries.com/v3.1/name/${country}`)
 
-
-
+const getCountryData = function (country) {
+  fetch(`https://restcountries.com/v3.1/name/${country}`)
+    .then(response => response.json())
+    .then(data => renderCountry(data[0]));
+};
+getCountryData('bangladesh');

@@ -34,94 +34,96 @@ text.style.color = 'red';
 **note** : callback function and addEventListener alone do **NOT** make code asynchronous.
 
 - For example:
-```js
 
+```js
 const img = document.querySelector('.dog');
-img.src ='dog.jpg';
-img.addEventListener('load',function(){
-    img.classList.add('fadeIn')
+img.src = 'dog.jpg';
+img.addEventListener('load', function () {
+  img.classList.add('fadeIn');
 });
-p.style.width ='300px'
+p.style.width = '300px';
+```
 
-``` 
-- Here **img.src** is asynchronous . Because it will load the **src** in the **background** without blocking any code and the event listener will listen for **load**  after the img is fully loaded and then the **call back function** will be called. So the callback funtion alone is'nt making the code asynchronous but **img.src** is asynchronous.
+- Here **img.src** is asynchronous . Because it will load the **src** in the **background** without blocking any code and the event listener will listen for **load** after the img is fully loaded and then the **call back function** will be called. So the callback funtion alone is'nt making the code asynchronous but **img.src** is asynchronous.
 
 ```js
-
-const btn = document.querySelector('.btn')
-btn.addEventListener('click',()=>console.log('hello'))
-
+const btn = document.querySelector('.btn');
+btn.addEventListener('click', () => console.log('hello'));
 ```
+
 - In this example the event listener just **waiting** for a button click event and wont doing anything on the **background** so it isnt asynchronous.
 
 ## AJAX - Asynchronous javaScript and XML
+
 - Allow us to communicate with remote web servers in an asynchronous way . With AJAX calls we can request data from web servers dynamically.
 - With out reloding the page we can use that data dynamically
 
 ## API - Application Programing Interface
+
 - Piece of software that can be used by another piece of software, In order to allow **applications to talk to each other**
 - online/web API's : Application running on server , that receives resquest for data and send data as response
 - Most API's use JSON data formate nowadays . When tiggers used to smoke (long time ago) , people used to use XML formate to transmit data on the web . Thats where the name AJAX came from. and it isnt changed till now.
 
 ## Old way of doing AJAX call
 
-```js 
-
- const request = new XMLHttpRequest();
- request.open('GET','https://restcountries.com/v3.1/name/bangladesh');
- request.send();
-
- request.addEventListener('load' , function(){
-    const [data] = JSON.parse(this.responseText)
-    console.log(data);
-
- })
-
-```
-- Calling  open('method' , 'URL' , async)  **Initializing** or **Opening** the request to retrive the data from url.
-- Calling send() to request the server and **fetch** data from it
 ```js
- const request = new XMLHttpRequest();
- request.open('GET','https://restcountries.com/v3.1/name/bangladesh');
- request.send();
+const request = new XMLHttpRequest();
+request.open('GET', 'https://restcountries.com/v3.1/name/bangladesh');
+request.send();
+
+request.addEventListener('load', function () {
+  const [data] = JSON.parse(this.responseText);
+  console.log(data);
+});
 ```
+
+- Calling open('method' , 'URL' , async) **Initializing** or **Opening** the request to retrive the data from url.
+- Calling send() to request the server and **fetch** data from it
+
+```js
+const request = new XMLHttpRequest();
+request.open('GET', 'https://restcountries.com/v3.1/name/bangladesh');
+request.send();
+```
+
 ## Callback Hell
+
 - If we want to sequence AJAX calls we will have **nested callbacks** inside nested callbacks if we want to sequence 10 callbacks we will have 10 nested callbacks insie on another.
 - Example: Here i want get data of 3 neighbouring in **sequence** and asynchronous
+
 ```js
-
-  const getCountryAndNeighbour = function(country){
-   //  AJAX call country 1
+const getCountryAndNeighbour = function (country) {
+  //  AJAX call country 1
   const request = new XMLHttpRequest();
-   request.open('GET',`https://restcountries.com/v3.1/name/${country}`);
-   request.send();
-  
-   request.addEventListener('load' , function(){
-      const [data] = JSON.parse(this.responseText)
-      console.log(data);
-  
-      // Render country 1
-      renderCountry(data)
-      
-      // Get neighbour country
-      const neighbour = data.borders?.[0]
+  request.open('GET', `https://restcountries.com/v3.1/name/${country}`);
+  request.send();
 
-      // AJAX call country 2
-      const request2 = new XMLHttpRequest();
-      request2.open('GET',`https://restcountries.com/v3.1/alpha/${neighbour}`);
-      request2.send();
+  request.addEventListener('load', function () {
+    const [data] = JSON.parse(this.responseText);
+    console.log(data);
 
-      request2.addEventListener('load',function(){
-        const [data2] = JSON.parse(this.responseText)
-        console.log(data2);
-        
+    // Render country 1
+    renderCountry(data);
+
+    // Get neighbour country
+    const neighbour = data.borders?.[0];
+
+    // AJAX call country 2
+    const request2 = new XMLHttpRequest();
+    request2.open('GET', `https://restcountries.com/v3.1/alpha/${neighbour}`);
+    request2.send();
+
+    request2.addEventListener('load', function () {
+      const [data2] = JSON.parse(this.responseText);
+      console.log(data2);
+
       // Render country 2
-      renderCountry(data2,"neighbour")
+      renderCountry(data2, 'neighbour');
 
       // Get neighbour country 2
-      const neighbour = data2.borders?.[0]
+      const neighbour = data2.borders?.[0];
 
-       // AJAX call country 3
+      // AJAX call country 3
       const request2 = new XMLHttpRequest();
       request2.open('GET', `https://restcountries.com/v3.1/alpha/${neighbour}`);
       request2.send();
@@ -130,48 +132,84 @@ btn.addEventListener('click',()=>console.log('hello'))
         const [data3] = JSON.parse(this.responseText);
         console.log(data3);
 
-       // Render country 3
+        // Render country 3
         renderCountry(data3, 'neighbour');
       });
-        
-      })
-      
-   })}
-  ```
-  - But it doesnt have to be AJAX calls **any asynchronous** code **with callbacks** function have to be nested same way for sequence.And it is bad practice to avoid this we have **Promises**
-  - For Example:
-  ```js
-   setTimeout(()=> {console.log('callback hell')
-    setTimeout(()=> {console.log('callback hell')
-      setTimeout(()=> {console.log('callback hell')
-        setTimeout(()=> {console.log('callback hell')
-          setTimeout(()=> {console.log('callback hell')
-          },1000)
-        },1000)
-      },1000)
-    },1000)
-   },1000)
-   ```
+    });
+  });
+};
+```
+
+- But it doesnt have to be AJAX calls **any asynchronous** code **with callbacks** function have to be nested same way for sequence.And it is bad practice to avoid this we have **Promises**
+- For Example:
+
+```js
+setTimeout(() => {
+  console.log('callback hell');
+  setTimeout(() => {
+    console.log('callback hell');
+    setTimeout(() => {
+      console.log('callback hell');
+      setTimeout(() => {
+        console.log('callback hell');
+        setTimeout(() => {
+          console.log('callback hell');
+        }, 1000);
+      }, 1000);
+    }, 1000);
+  }, 1000);
+}, 1000);
+```
+
 ## New way of AJAX call
+
 ```js
 const request = fetch('https://restcountries.com/v3.1/name/bangladesh');
 console.log(request);
 ```
 
 ## What are Promises
+
 - An **object** that is used as a **placeholder** for the future of an asynchronous operation.
 - In less formal way :- a container or placeholder for asynchronous delivered value (future value).
 - Suppose I buy a lottery ticket (promise). Lottery draw happen asynchronously , Because I didnt have to drop my work and wait for draw.If correct outcome I receive money because it is promised.
 
 ## Advantage of promises
+
 - We dont need to rely on events and callbacks passed in asynchronous functions to handle asynchronous results.
 - We can **chain promises** for sequence of asynchronous operation : **escaping callback hells**
 
 ## The promise lifecycle
-- **PENDING** (befor the value is available) ---> (async task) ---> **SETTELED** (asynchronous task finished) ---> **FULFILLED** (_succes- the value is now availabe) _OR_ **REJECTED** (an error happend)
+
+- **PENDING** (befor the value is available) ---> (async task) ---> **SETTELED** (asynchronous task finished) ---> **FULFILLED** (_succes_ the value is now availabe) --- _OR_ --- **REJECTED** (an error happend)
 
 - Pending: I buy a lottery ticket and wait for the draw to happen. The Promise is in a Pending state, meaning it has not yet been resolved or rejected.Pending (waiting for the draw)
 - Fulfilled (you win the lottery): The draw happens, and your numbers match the winning numbers. The Promise is Fulfilled, and the winning amount is resolved.Fulfilled (you win the lottery)
 - Rejected (you don't win the lottery): The draw happens, and your numbers don't match the winning numbers. The Promise is Rejected, and an error message is returned.Rejected (you don't win the lottery)
 
-
+## Consuming promises
+```js
+const getCountryData = function (country) {
+  fetch(`https://restcountries.com/v3.1/name/${country}`).then(function (response) {
+    console.log(response);
+    return reponse.json();
+  }).then(function (data) {
+    console.log(data);
+    renderCountry(data[0])
+  })
+}
+getCountryData('bangladesh')
+```
+- **fetch()** function  returns a promise
+```js
+  fetch(`https://restcountries.com/v3.1/name/${country}`)
+```
+- Handling the promise using **then(function(perameter){})** method and Readind and readind the response using **json()**
+```js
+fetch(`https://restcountries.com/v3.1/name/${country}`).then(function (response) {
+    console.log(response);
+    return response.json();
+  })
+```
+- json() method **return another promise** (now this time the promise itself is the **data**) and we return that promise.
+- And again we handle that promise using then() method.
