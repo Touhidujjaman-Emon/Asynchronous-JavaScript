@@ -40,7 +40,7 @@ const request = new XMLHttpRequest();
  countryData('pakistan');
  countryData('USA');*/
 
-const renderCountry = function (data, className = '') {
+/*const renderCountry = function (data, className = '') {
   //Getting the language dynamically
   const language =
     Object.values(data.languages)[0] !== 'English'
@@ -100,7 +100,11 @@ const getCountryAndNeighbour = function (country) {
 
 getCountryAndNeighbour('bangladesh');
 getCountryAndNeighbour('usa');
+*/
 
+// new way of AJAX call
+const request = fetch('https://restcountries.com/v3.1/name/bangladesh');
+console.log(request);
 
 
 

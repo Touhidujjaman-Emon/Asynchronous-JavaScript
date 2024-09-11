@@ -152,5 +152,26 @@ btn.addEventListener('click',()=>console.log('hello'))
     },1000)
    },1000)
    ```
+## New way of AJAX call
+```js
+const request = fetch('https://restcountries.com/v3.1/name/bangladesh');
+console.log(request);
+```
+
+## What are Promises
+- An **object** that is used as a **placeholder** for the future of an asynchronous operation.
+- In less formal way :- a container or placeholder for asynchronous delivered value (future value).
+- Suppose I buy a lottery ticket (promise). Lottery draw happen asynchronously , Because I didnt have to drop my work and wait for draw.If correct outcome I receive money because it is promised.
+
+## Advantage of promises
+- We dont need to rely on events and callbacks passed in asynchronous functions to handle asynchronous results.
+- We can **chain promises** for sequence of asynchronous operation : **escaping callback hells**
+
+## The promise lifecycle
+- **PENDING** (befor the value is available) ---> (async task) ---> **SETTELED** (asynchronous task finished) ---> **FULFILLED** (_succes- the value is now availabe) _OR_ **REJECTED** (an error happend)
+
+- Pending: I buy a lottery ticket and wait for the draw to happen. The Promise is in a Pending state, meaning it has not yet been resolved or rejected.Pending (waiting for the draw)
+- Fulfilled (you win the lottery): The draw happens, and your numbers match the winning numbers. The Promise is Fulfilled, and the winning amount is resolved.Fulfilled (you win the lottery)
+- Rejected (you don't win the lottery): The draw happens, and your numbers don't match the winning numbers. The Promise is Rejected, and an error message is returned.Rejected (you don't win the lottery)
 
 
