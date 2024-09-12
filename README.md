@@ -188,28 +188,91 @@ console.log(request);
 - Rejected (you don't win the lottery): The draw happens, and your numbers don't match the winning numbers. The Promise is Rejected, and an error message is returned.Rejected (you don't win the lottery)
 
 ## Consuming promises
+
 ```js
 const getCountryData = function (country) {
-  fetch(`https://restcountries.com/v3.1/name/${country}`).then(function (response) {
-    console.log(response);
-    return reponse.json();
-  }).then(function (data) {
-    console.log(data);
-    renderCountry(data[0])
-  })
-}
-getCountryData('bangladesh')
-```
-- **fetch()** function  returns a promise
-```js
   fetch(`https://restcountries.com/v3.1/name/${country}`)
+    .then(function (response) {
+      console.log(response);
+      return reponse.json();
+    })
+    .then(function (data) {
+      console.log(data);
+      renderCountry(data[0]);
+    });
+};
+getCountryData('bangladesh');
 ```
-- Handling the promise using **then(function(perameter){})** method and Readind and readind the response using **json()**
+
+- **fetch()** function returns a promise
+
 ```js
-fetch(`https://restcountries.com/v3.1/name/${country}`).then(function (response) {
-    console.log(response);
-    return response.json();
-  })
+fetch(`https://restcountries.com/v3.1/name/${country}`);
 ```
+
+- Handling the promise using **then(function(perameter){})** method and reading the response using **json()**
+
+```js
+fetch(`https://restcountries.com/v3.1/name/${country}`).then(function (
+  response
+) {
+  console.log(response);
+  return response.json();
+});
+```
+
 - json() method **return another promise** (now this time the promise itself is the **data**) and we return that promise.
 - And again we handle that promise using then() method.
+
+## Chaining promises
+
+- We can chain promises in sequence
+- Example :
+
+```js
+fetch(`https://restcountries.com/v3.1/name/${country}`)
+  .then(response => response.json())
+  .then(data => {
+    renderCountry(data[0]);
+    const neighbour = data[0].borders?.[0];
+    //country 2
+    return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+  })
+  .then(response => response.json())
+  .then(data => renderCountry(data[0], 'neighbour'));
+```
+
+- We get the neighbouring country using another AJAX call. (fetch(``))
+- then() method always **returns a promise** no matter if we actually return a value or not.
+- But if we return a value this value become the **fulfillment value** of the return promise.
+- Example:
+
+```js
+.then(data => {
+      renderCountry(data[0]);
+      const neighbour = data[0].borders?.[0];
+      //country 2
+       fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+       return 13
+    })
+    .then(data =>
+
+      console.log(data)//23
+
+    )
+```
+
+- A common mistake :- if we chain the then() method directly to the fetch() method while sequencing asynchronous code we will get back to **callback hell**
+
+```js
+fetch(`https://restcountries.com/v3.1/name/${country}`)
+  .then(response => response.json())
+  .then(data => {
+    renderCountry(data[0]);
+    const neighbour = data[0].borders?.[0];
+    //country 2
+    fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`).then(response =>
+      response.json()
+    );
+  });
+```
