@@ -276,3 +276,29 @@ fetch(`https://restcountries.com/v3.1/name/${country}`)
     );
   });
 ```
+## Rejected promises
+- A rejected promise is a promise in JavaScript that has failed to complete its intended operation. When a promise is rejected, it means that an error occurred during its execution.
+- We can handle rejected promises using **catch()** method. We can add the catch() method at the end of the promise chain.
+- The catch() meyhod also returns a **promise**.
+- Example :
+```js
+.then(response => response.json())
+    .then(data => renderCountry(data[0], 'neighbour'))
+    .catch(err => {
+      console.log(`${err}`);
+      renderError(`something went wrong ${err.message}`)
+    })
+ ```
+ - We can use another method called **finally()**.We can use regardless whether the promise is fulfilled or rejected.
+ - It is maily used to for loader animation while loadling data asynchronously.
+ ```js
+    .then(response => response.json())
+    .then(data => renderCountry(data[0], 'neighbour'))
+    .catch(err => {
+      console.log(`${err}`);
+      renderError(`something went wrong ${err.message}`)
+    })
+    .finally(() => {
+      countriesContainer.style.opacity = 1;  
+    })
+```
