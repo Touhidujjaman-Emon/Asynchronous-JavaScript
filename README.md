@@ -302,3 +302,14 @@ fetch(`https://restcountries.com/v3.1/name/${country}`)
       countriesContainer.style.opacity = 1;  
     })
 ```
+## Throwing Errors maunally
+- In async fuction error arent propagated automatically . If we dont handle the error it will be silently ignored.
+- By throwing error manually we can catch and handle the error and provide a **clear error message**
+```js
+ fetch(`https://restcountries.com/v3.1/name/${country}`)
+    .then(response => {
+      if (!response.ok) throw new Error(`Country not found ${response.status}`);
+      return response.json();
+    })
+ ```
+ - In this example if the country is not found we are throwing a manual error. But if we dont provide a manual error the browser show us some property of the country is undifined . But that is not the **reason** why our promise was rejected . So we have to throw a error manually to show a clear error **message**

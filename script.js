@@ -113,7 +113,10 @@ getCountryAndNeighbour('usa');
 const getCountryData = function (country) {
   //country 1
   fetch(`https://restcountries.com/v3.1/name/${country}`)
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) throw new Error(`Country not found ${response.status}`);
+      return response.json();
+    })
     .then(data => {
       renderCountry(data[0]);
       const neighbour = data[0].borders?.[0];
@@ -124,15 +127,15 @@ const getCountryData = function (country) {
     .then(data => renderCountry(data[0], 'neighbour'))
     .catch(err => {
       console.log(`${err}`);
-      renderError(`something went wrong ${err.message}`)
+      renderError(`something went wrong ${err.message}`);
     })
     .finally(() => {
-      countriesContainer.style.opacity = 1;  
-    })
+      countriesContainer.style.opacity = 1;
+    });
 };
 
 btn.addEventListener('click', function () {
   getCountryData('bangladesh');
 });
 
-getCountryData('dgdhdh')
+getCountryData('dgdhdh');
