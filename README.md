@@ -354,7 +354,9 @@ Your tasks:
 
 6.  Now it's time to use the received data to render a country. So take the relevant
     attribute from the geocoding API result, and plug it into the countries API that
-    we have been using. 7. Render the country and catch any errors, just like we have done in the last
+    we have been using. 
+    
+7. Render the country and catch any errors, just like we have done in the last
     lecture (you can even copy this code, no need to type the same code)
 
 ### Test data:
@@ -362,7 +364,7 @@ Your tasks:
 - Coordinates 2: 19.037, 72.873
 - Coordinates 3: -33.933, 18.474
 
-- **Solution**
+### Solution
 ```js
 const renderCountry = function (data, className = '') {
   //Getting the language dynamically
