@@ -418,5 +418,49 @@ const whereAmI = function (lat, lang) {
 
 whereAmI(0, 0);
 ```
+## Building a promise
+- A Promise is created using the **new Promise constructor**, which takes a callback function with two parameters: **resolve and reject**. The resolve function is called when the Promise is fulfilled, while the reject function is called when the Promise is rejected.
+
+- Example: Creating a lotteryPromise that simulates a lottery draw with a 2-second delay
+
+```js
+const lotteryPromise = new Promise(function (resolve, reject) {
+  console.log('Lottery draw happening')
+  setTimeout(function () {
+    if (Math.random() >= 0.5) {
+      resolve('You win!')
+    } else {
+      reject(new Error('You lost your money'))
+    }
+  }, 2000)
+})
+```
+
+- To use a Promise, you can chain then blocks to handle the resolved value, and catch blocks to handle any errors.
+
+- Example: Using the lotteryPromise to log the result
+
+```js
+lotteryPromise.then(res => console.log(res)).catch(err => console.log(err))
+```
+## Promisifying a Callback Function
+- You can convert a callback-based function to a Promise-based function using the new Promise constructor.
+
+- Example: Promisifying the setTimeout function using the wait function
+
+```js
+const wait = function (seconds) {
+  return new Promise(function(resolve) {
+    setTimeout(resolve, seconds * 1000)
+  })
+}
+```
+- This allows you to use the wait function with then blocks, making it easier to write asynchronous code.
+```js
+wait(2).then(() => {
+  console.log('I waited for 2 seconds')
+  return wait(1)
+}).then(() => console.log('I waited for 1 second'))
+```
 
 

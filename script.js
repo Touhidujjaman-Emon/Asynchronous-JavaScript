@@ -209,4 +209,35 @@ const whereAmI = function (lat, lang) {
     });
 };
 
-whereAmI(0, 0);
+whereAmI(-33.933, 18.474);
+
+// Building a promise
+const lotteryPromise = new Promise(function (resolve, reject) {
+
+  console.log('Lottery draw happenig')
+  setTimeout(function () {
+    if (Math.random() >= 0.5) {
+      resolve('you win')
+    }else{
+     reject(new Error('you lost your money'))
+   }
+   
+  },2000)
+})
+
+lotteryPromise.then(res => console.log(res)).catch(err => console.log(err))
+
+// Promisifying setTimeout function
+
+const wait = function (seconds) {
+
+  return new Promise(function(resolve){
+    setTimeout(resolve , seconds*1000)
+  })
+  
+}
+
+wait(2).then(() => {
+  console.log('I waited for 2 seconds') 
+  return wait(1)
+}).then(()=> console.log('I waited for 1 second'))
