@@ -184,8 +184,8 @@ console.log(request);
 - **PENDING** (befor the value is available) ---> (async task) ---> **SETTELED** (asynchronous task finished) ---> **FULFILLED** (_succes_ the value is now availabe) --- _OR_ --- **REJECTED** (an error happend)
 
 - Pending: I buy a lottery ticket and wait for the draw to happen. The Promise is in a Pending state, meaning it has not yet been resolved or rejected.Pending (waiting for the draw)
-- Fulfilled (you win the lottery): The draw happens, and your numbers match the winning numbers. The Promise is Fulfilled, and the winning amount is resolved.Fulfilled (you win the lottery)
-- Rejected (you don't win the lottery): The draw happens, and your numbers don't match the winning numbers. The Promise is Rejected, and an error message is returned.Rejected (you don't win the lottery)
+- Fulfilled (I win the lottery): The draw happens, and my numbers match the winning numbers. The Promise is Fulfilled, and the winning amount is resolved.Fulfilled (I win the lottery)
+- Rejected (I don't win the lottery): The draw happens, and my numbers don't match the winning numbers. The Promise is Rejected, and an error message is returned.Rejected (I don't win the lottery)
 
 ## Consuming promises
 
@@ -436,7 +436,7 @@ const lotteryPromise = new Promise(function (resolve, reject) {
 })
 ```
 
-- To use a Promise, you can chain then blocks to handle the resolved value, and catch blocks to handle any errors.
+- To use a Promise, I can chain **then blocks** to handle the resolved value, and **catch blocks** to handle any errors.
 
 - Example: Using the lotteryPromise to log the result
 
@@ -444,7 +444,7 @@ const lotteryPromise = new Promise(function (resolve, reject) {
 lotteryPromise.then(res => console.log(res)).catch(err => console.log(err))
 ```
 ## Promisifying a Callback Function
-- You can convert a callback-based function to a Promise-based function using the new Promise constructor.
+- I can convert a callback-based function to a Promise-based function using the new Promise constructor.
 
 - Example: Promisifying the setTimeout function using the wait function
 
@@ -455,7 +455,7 @@ const wait = function (seconds) {
   })
 }
 ```
-- This allows you to use the wait function with then blocks, making it easier to write asynchronous code.
+- This allows me to use the wait function with then blocks, making it easier to write asynchronous code.
 ```js
 wait(2).then(() => {
   console.log('I waited for 2 seconds')
