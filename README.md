@@ -742,6 +742,6 @@ get3Countries('portugal', 'canada', 'tanzania');
   ```
  - **Promise.any**: Returns a promise that resolves as soon as one of the promises in the input array resolves.
  - Example: 
-	```js 
+  ```js 
   Promise.any([Promise.resolve('Success'), Promise.reject('ERROR')])
   ```
