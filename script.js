@@ -375,22 +375,30 @@ const getPosition = function () {
   });
 };
 const whereAmI = async function () {
-// Geo location
-  const pos = await getPosition();
-  const { latitude: lat, longitude: lang } = pos.coords;
 
-  // Reverse geocoding
-  const countryInf = await fetch(
-    `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lang}&apiKey=fd48a5c7752c432e8ac325c8b713d7fb`
-  );
+  try {
+    // Geo location
+    const pos = await getPosition();
+    const { latitude: lat, longitude: lang } = pos.coords;
 
-  const countryData = await countryInf.json();
-  const countryName = countryData.features[0].properties.country;
+    // Reverse geocoding
+    const countryInf = await fetch(
+      `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lang}&apiKey=fd48a5c7752c432e8ac325c8b713d7fb`
+    );
+    if(!countryInf.ok) throw new Error('Something wrong with location')
 
-  // Country data
-  const res = await fetch(`https://restcountries.com/v3.1/name/${countryName}`);
-  const data = await res.json();
+    const countryData = await countryInf.json();
+    const countryName = countryData.features[0].properties.country;
 
-  renderCountry(data[0]);
+    // Country data
+    const res = await fetch(`https://restcountries.com/v3.1/name/${countryName}`);
+    const data = await res.json();
+    if(!res.ok) throw new Error('Something wrong with Country')
+
+    renderCountry(data[0]);
+  } catch(err) {
+    console.error(`${err.message}`)
+  }
+   
 };
 whereAmI();
