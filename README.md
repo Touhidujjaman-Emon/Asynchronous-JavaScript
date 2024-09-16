@@ -473,7 +473,7 @@ wait(2)
   .then(() => console.log('I waited for 1 second'));
 ```
 
-## Coding challeng e2
+## Coding challenge 2
 
 ### PART 1
 
@@ -510,7 +510,7 @@ wait(2)
 - Images in the img folder. Test the error handler by passing a wrong
   image path. Set the network speed to “Fast 3G” in the dev tools Network tab,
   otherwise images load too fast
-  
+
 ```js
 const wait = function (seconds) {
   return new Promise(function (resolve) {
