@@ -725,3 +725,23 @@ const get3Countries = async function (c1, c2, c3) {
 };
 get3Countries('portugal', 'canada', 'tanzania');
 ```
+
+
+
+**Promise Combinators**
+
+ - **`Promise.race`**: Returns a promise that resolves or rejects as soon as one of the promises in the input array resolves or rejects.
+ - Example:
+ ```js
+	 `Promise.race([getJSON('url1'), getJSON('url2')])`
+```
+ - **`Promise.allSettled`**: Returns a promise that resolves when all promises in the input array have either resolved or rejected.
+	- Example:
+  ```js
+  Promise.allSettled([Promise.resolve('Success'), Promise.reject('ERROR')])
+  ```
+ - **`Promise.any` [ES2021]**: Returns a promise that resolves as soon as one of the promises in the input array resolves.
+ - Example: 
+	```js 
+  Promise.any([Promise.resolve('Success'), Promise.reject('ERROR')])
+  ```
