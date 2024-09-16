@@ -3,6 +3,43 @@
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
 
+///////////////////////////////////////
+// Old way of Ajax call
+/*const countryData = function(country){
+const request = new XMLHttpRequest();
+ request.open('GET',`https://restcountries.com/v3.1/name/${country}`);
+ request.send();
+
+ request.addEventListener('load' , function(){
+    const [data] = JSON.parse(this.responseText)
+    console.log(data);
+
+    const language = Object.values(data.languages)[0]
+    const {name:moneyName , symbol} = Object.values(data.currencies)[0]
+    
+    
+    const html = `
+    
+     <article class="country">
+          <img class="country__img" src="${data.flags.png}" />
+          <div class="country__data">
+            <h3 class="country__name">${data.name.common}</h3>
+            <h4 class="country__region"${data.region}</h4>
+            <p class="country__row"><span>👫</span>${+(data.population/1000000).toFixed(1)}M People</p>
+            <p class="country__row"><span>🗣️</span>${language}</p>
+            <p class="country__row"><span>💰</span>${moneyName}</p>
+          </div>
+        </article>
+
+    `;
+    countriesContainer.insertAdjacentHTML('beforeend',html);
+    countriesContainer.style.opacity = 1;
+ })}
+
+ countryData('bangladesh');
+ countryData('pakistan');
+ countryData('USA');*/
+
 const renderCountry = function (data, className = '') {
   //Getting the language dynamically
   const language =
@@ -41,45 +78,6 @@ const getJSON = function (url, msg = 'Something went wrong') {
     return response.json();
   });
 };
-
-///////////////////////////////////////
-// Old way of Ajax call
-/*const countryData = function(country){
-const request = new XMLHttpRequest();
- request.open('GET',`https://restcountries.com/v3.1/name/${country}`);
- request.send();
-
- request.addEventListener('load' , function(){
-    const [data] = JSON.parse(this.responseText)
-    console.log(data);
-
-    const language = Object.values(data.languages)[0]
-    const {name:moneyName , symbol} = Object.values(data.currencies)[0]
-    
-    
-    const html = `
-    
-     <article class="country">
-          <img class="country__img" src="${data.flags.png}" />
-          <div class="country__data">
-            <h3 class="country__name">${data.name.common}</h3>
-            <h4 class="country__region"${data.region}</h4>
-            <p class="country__row"><span>👫</span>${+(data.population/1000000).toFixed(1)}M People</p>
-            <p class="country__row"><span>🗣️</span>${language}</p>
-            <p class="country__row"><span>💰</span>${moneyName}</p>
-          </div>
-        </article>
-
-    `;
-    countriesContainer.insertAdjacentHTML('beforeend',html);
-    countriesContainer.style.opacity = 1;
- })}
-
- countryData('bangladesh');
- countryData('pakistan');
- countryData('USA');*/
-
-
 
 /*const getCountryAndNeighbour = function (country) {
   //  AJAX call country 1
@@ -369,7 +367,7 @@ createImg('/img/img-1.jpg')
   */
 
 
-  // Running Promises in Parallel
+/* // Running Promises in Parallel
 const get3Countries = async function (c1, c2, c3) {
   try {
     // const [data1] = await getJSON(
@@ -384,9 +382,9 @@ const get3Countries = async function (c1, c2, c3) {
     // console.log([data1.capital, data2.capital, data3.capital]);
 
     const data = await Promise.all([
-      getJSON(`https://restcountries.eu/rest/v2/name/${c1}`),
-      getJSON(`https://restcountries.eu/rest/v2/name/${c2}`),
-      getJSON(`https://restcountries.eu/rest/v2/name/${c3}`),
+      getJSON(`https://restcountries.com/v3.1/name/${c1}}`),
+      getJSON(`https://restcountries.com/v3.1/name/${c2}}`),
+      getJSON(`https://restcountries.com/v3.1/name/${c3}}`)
     ]);
     console.log(data.map(d => d[0].capital));
   } catch (err) {
@@ -394,3 +392,4 @@ const get3Countries = async function (c1, c2, c3) {
   }
 };
 get3Countries('portugal', 'canada', 'tanzania');
+*/
