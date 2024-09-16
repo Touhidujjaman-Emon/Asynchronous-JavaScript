@@ -187,6 +187,7 @@ Test data:
 § Coordinates 3: -33.933, 18.474
 */
 
+/*
 const whereAmI = function (lat, lang) {
   fetch(
     `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lang}&apiKey=fd48a5c7752c432e8ac325c8b713d7fb`
@@ -240,4 +241,52 @@ const wait = function (seconds) {
 wait(2).then(() => {
   console.log('I waited for 2 seconds') 
   return wait(1)
-}).then(()=> console.log('I waited for 1 second'))
+}).then(() => console.log('I waited for 1 second'))
+
+
+// Promisifying the geoLocation API
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve,reject)
+  })
+}
+
+getPosition().then(res => console.log(res))
+*/
+
+const whereAmI = function (lat, lang) {
+  // / Promisifying the geoLocation API
+  const getPosition = function () {
+    return new Promise(function (resolve, reject) {
+      navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
+  };
+
+  getPosition()
+    .then(res => {
+      const { latitude: lat, longitude: lang } = res.coords;
+
+      return fetch(
+        `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lang}&apiKey=fd48a5c7752c432e8ac325c8b713d7fb`
+      );
+    })
+    .then(response => response.json())
+    .then(data => {
+      const countryName = data.features[0].properties.country;
+      if (!countryName)
+        throw new Error(`no country with this ${lat},${lang} coords`);
+      return fetch(`https://restcountries.com/v3.1/name/${countryName}`);
+    })
+    .then(response => {
+      if (!response.ok) throw new Error(`Country not found ${response.status}`);
+      return response.json();
+    })
+    .then(data => {
+      renderCountry(data[0]);
+    })
+    .catch(err => {
+      console.log(`${err.message}`);
+    });
+};
+
+whereAmI();
