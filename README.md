@@ -576,6 +576,65 @@ createImg('/img/img-1.jpg')
 2. Error occurs: If an error occurs, execution is interrupted, and control is transferred to the Catch block.
 3. Catch: Code is executed to handle the error.
 
+- Example :
+```js
+//AsyncAwait
+
+// fetch(`https://restcountries.com/v3.1/name/${country}`).then((res)=> console.log(res))
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+const whereAmI = async function () {
+
+  try {
+    // Geo location
+    const pos = await getPosition();
+    const { latitude: lat, longitude: lang } = pos.coords;
+
+    // Reverse geocoding
+    const countryInf = await fetch(
+      `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lang}&apiKey=fd48a5c7752c432e8ac325c8b713d7fb`
+    );
+    if(!countryInf.ok) throw new Error('Something wrong with location')
+
+    const countryData = await countryInf.json();
+    const countryName = countryData.features[0].properties.country;
+    
+
+    // Country data
+    const res = await fetch(`https://restcountries.com/v3.1/name/${countryName}`);
+    const data = await res.json();
+    if(!res.ok) throw new Error('Something wrong with country')
+
+    renderCountry(data[0]);
+
+    // Returning something from whereAmI function
+    return `your in ${countryName}`
+    
+  } catch(err) {
+    console.error(`${err.message}`)
+    // Rejected promise returned from async
+    throw err
+  }
+   
+};
+
+// Using IIFe to get return data
+(
+  async function () {
+    try {
+      const iamIn = await whereAmI();
+      console.log(iamIn);
+    } catch(err) {
+      console.error(`${err.message}`);
+    }
+    console.log('grting location finished')
+  }
+)();
+```
+
 ## Returning Values
 
 - In the whereAmI function, we return a value using the return statement:
@@ -632,3 +691,5 @@ catch (err) {
 - Use try-catch blocks to handle errors in async/await functions.
 - Re-throw errors using the throw statement to allow the error to be propagated up the call stack.
 - Use await to wait for the resolution of Promises returned by async/await functions.
+
+[NOTE] : we can use await in modules without async function . but in script we need async functions to execute await.
