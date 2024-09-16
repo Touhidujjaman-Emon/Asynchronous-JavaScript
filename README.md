@@ -346,7 +346,7 @@ Your tasks:
 4. Chain a .catch method to the end of the promise chain and log errors to the
    console
 
-5.  If use 0,0 cordinates, you
+5. If use 0,0 cordinates, you
    will get this error with code 404. So create an error to reject
    the promise yourself, with a meaningful error message
 
@@ -354,17 +354,18 @@ Your tasks:
 
 6.  Now it's time to use the received data to render a country. So take the relevant
     attribute from the geocoding API result, and plug it into the countries API that
-    we have been using. 
-    
-7. Render the country and catch any errors, just like we have done in the last
+    we have been using.
+7.  Render the country and catch any errors, just like we have done in the last
     lecture (you can even copy this code, no need to type the same code)
 
 ### Test data:
+
 - Coordinates 1: 52.508, 13.381 (Latitude, Longitude)
 - Coordinates 2: 19.037, 72.873
 - Coordinates 3: -33.933, 18.474
 
 ### Solution
+
 ```js
 const renderCountry = function (data, className = '') {
   //Getting the language dynamically
@@ -401,7 +402,8 @@ const whereAmI = function (lat, lang) {
     .then(response => response.json())
     .then(data => {
       const countryName = data.features[0].properties.country;
-      if (!countryName) throw new Error(`no country with this ${lat},${lang} coords`);
+      if (!countryName)
+        throw new Error(`no country with this ${lat},${lang} coords`);
       return fetch(`https://restcountries.com/v3.1/name/${countryName}`);
     })
     .then(response => {
@@ -418,22 +420,24 @@ const whereAmI = function (lat, lang) {
 
 whereAmI(0, 0);
 ```
+
 ## Building a promise
+
 - A Promise is created using the **new Promise constructor**, which takes a callback function with two parameters: **resolve and reject**. The resolve function is called when the Promise is fulfilled, while the reject function is called when the Promise is rejected.
 
 - Example: Creating a lotteryPromise that simulates a lottery draw with a 2-second delay
 
 ```js
 const lotteryPromise = new Promise(function (resolve, reject) {
-  console.log('Lottery draw happening')
+  console.log('Lottery draw happening');
   setTimeout(function () {
     if (Math.random() >= 0.5) {
-      resolve('You win!')
+      resolve('You win!');
     } else {
-      reject(new Error('You lost your money'))
+      reject(new Error('You lost your money'));
     }
-  }, 2000)
-})
+  }, 2000);
+});
 ```
 
 - To use a Promise, I can chain **then blocks** to handle the resolved value, and **catch blocks** to handle any errors.
@@ -441,26 +445,113 @@ const lotteryPromise = new Promise(function (resolve, reject) {
 - Example: Using the lotteryPromise to log the result
 
 ```js
-lotteryPromise.then(res => console.log(res)).catch(err => console.log(err))
+lotteryPromise.then(res => console.log(res)).catch(err => console.log(err));
 ```
+
 ## Promisifying a Callback Function
+
 - I can convert a callback-based function to a Promise-based function using the new Promise constructor.
 
 - Example: Promisifying the setTimeout function using the wait function
 
 ```js
 const wait = function (seconds) {
-  return new Promise(function(resolve) {
-    setTimeout(resolve, seconds * 1000)
-  })
-}
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
 ```
+
 - This allows me to use the wait function with then blocks, making it easier to write asynchronous code.
+
 ```js
-wait(2).then(() => {
-  console.log('I waited for 2 seconds')
-  return wait(1)
-}).then(() => console.log('I waited for 1 second'))
+wait(2)
+  .then(() => {
+    console.log('I waited for 2 seconds');
+    return wait(1);
+  })
+  .then(() => console.log('I waited for 1 second'));
 ```
 
+## Coding challeng e2
 
+### PART 1
+
+1. Create a function 'createImage' which receives 'imgPath' as an input.
+   This function returns a promise which creates a new image (use
+   document.createElement('img')) and sets the .src attribute to the
+   provided image path
+
+2. When the image is done loading, append it to the DOM element with the
+   'images' class, and resolve the promise. The fulfilled value should be the
+   image element itself. In case there is an error loading the image (listen for
+   the'error' event), reject the promise
+
+3. If this part is too tricky for you, just watch the first part of the solution
+
+### PART 2
+
+4. Consume the promise using .then and also add an error handler
+
+5. After the image has loaded, pause execution for 2 seconds using the 'wait'
+   function we created earlier
+
+6. After the 2 seconds have passed, hide the current image (set display CSS
+   property to 'none'), and load a second image (Hint: Use the image element
+   returned by the 'createImage' promise to hide the current image. You will
+   need a global variable for that �)
+
+7. After the second image has loaded, pause execution for 2 seconds again
+
+8. After the 2 seconds have passed, hide the current image
+
+### Test data:
+
+- Images in the img folder. Test the error handler by passing a wrong
+  image path. Set the network speed to “Fast 3G” in the dev tools Network tab,
+  otherwise images load too fast
+  
+```js
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+const createImg = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    const img = document.createElement('img');
+    img.src = imgPath;
+
+    img.addEventListener('load', function () {
+      document.querySelector('.images').appendChild(img);
+      resolve(img);
+    });
+
+    img.addEventListener('error', function () {
+      reject(new Error('Wrong image path'));
+    });
+  });
+};
+
+let currentImg;
+createImg('/img/img-1.jpg')
+  .then(img => {
+    currentImg = img;
+    console.log('image 1 loaded');
+    return wait(2);
+  })
+  .then(() => {
+    currentImg.style.display = ' none';
+    return createImg('/img/img-2.jpg');
+  })
+  .then(img => {
+    currentImg = img;
+    console.log('image 2 loaded');
+    return wait(2);
+  })
+  .then(() => (currentImg.style.display = 'none'))
+  .catch(err => {
+    console.log(err.message);
+  });
+```
