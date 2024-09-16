@@ -570,4 +570,65 @@ createImg('/img/img-1.jpg')
 1. Pause the execution of the code at that point.
 2. Wait for the Promise to resolve or reject.
 
+### TryCatch
 
+1. Try: Code is executed. If no errors occur, code continues normally.
+2. Error occurs: If an error occurs, execution is interrupted, and control is transferred to the Catch block.
+3. Catch: Code is executed to handle the error.
+
+## Returning Values
+
+- In the whereAmI function, we return a value using the return statement:
+
+```js
+return `You're in ${countryName}`;
+```
+
+- This value is returned as a Promise, which can be awaited by the caller.
+
+### Awaiting the Returned Value
+
+- IIFE is executed as soon as the IIFE is defined. This is useful when we want to execute some code only once, without having to call a function explicitly.
+- In the IIFE, we await the returned value using the await keyword:
+
+```js
+const iamIn = await whereAmI();
+console.log(iamIn);
+```
+
+- This logs the returned value to the console.
+
+### Handling Errors
+
+- What if an error occurs during the execution of the whereAmI function? We can handle this using a try-catch block:
+
+```js
+try {
+  const iamIn = await whereAmI();
+  console.log(iamIn);
+} catch (err) {
+  console.error(err.message);
+}
+```
+
+- In this example, if an error occurs, the catch block will catch the error and log the error message to the console.
+
+### Re-Throwing Errors
+
+- In the whereAmI function, we re-throw the error using the throw statement:
+
+```js
+catch (err) {
+  console.error(err.message);
+  throw err;
+}
+```
+
+- This allows the error to be propagated up the call stack and handled by the caller.
+
+### Best Practices
+
+- Always return values from async/await functions using the return statement.
+- Use try-catch blocks to handle errors in async/await functions.
+- Re-throw errors using the throw statement to allow the error to be propagated up the call stack.
+- Use await to wait for the resolution of Promises returned by async/await functions.

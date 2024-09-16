@@ -389,16 +389,35 @@ const whereAmI = async function () {
 
     const countryData = await countryInf.json();
     const countryName = countryData.features[0].properties.country;
+    
 
     // Country data
     const res = await fetch(`https://restcountries.com/v3.1/name/${countryName}`);
     const data = await res.json();
-    if(!res.ok) throw new Error('Something wrong with Country')
+    if(!res.ok) throw new Error('Something wrong with country')
 
     renderCountry(data[0]);
+
+    // Returning something from whereAmI function
+    return `your in ${countryName}`
+    
   } catch(err) {
     console.error(`${err.message}`)
+    // Rejected promise returned from async
+    throw err
   }
    
 };
-whereAmI();
+
+// Using IIFe to get return data
+(
+  async function () {
+    try {
+      const iamIn = await whereAmI();
+      console.log(iamIn);
+    } catch(err) {
+      console.error(`${err.message}`);
+    }
+    console.log('grting location finished')
+  }
+)();
