@@ -693,3 +693,4 @@ catch (err) {
 - Use await to wait for the resolution of Promises returned by async/await functions.
 
 [NOTE] : we can use await in modules without async function . but in script we need async functions to execute await.
+

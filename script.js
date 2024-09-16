@@ -3,43 +3,6 @@
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
 
-///////////////////////////////////////
-// Old way of Ajax call
-/*const countryData = function(country){
-const request = new XMLHttpRequest();
- request.open('GET',`https://restcountries.com/v3.1/name/${country}`);
- request.send();
-
- request.addEventListener('load' , function(){
-    const [data] = JSON.parse(this.responseText)
-    console.log(data);
-
-    const language = Object.values(data.languages)[0]
-    const {name:moneyName , symbol} = Object.values(data.currencies)[0]
-    
-    
-    const html = `
-    
-     <article class="country">
-          <img class="country__img" src="${data.flags.png}" />
-          <div class="country__data">
-            <h3 class="country__name">${data.name.common}</h3>
-            <h4 class="country__region"${data.region}</h4>
-            <p class="country__row"><span>👫</span>${+(data.population/1000000).toFixed(1)}M People</p>
-            <p class="country__row"><span>🗣️</span>${language}</p>
-            <p class="country__row"><span>💰</span>${moneyName}</p>
-          </div>
-        </article>
-
-    `;
-    countriesContainer.insertAdjacentHTML('beforeend',html);
-    countriesContainer.style.opacity = 1;
- })}
-
- countryData('bangladesh');
- countryData('pakistan');
- countryData('USA');*/
-
 const renderCountry = function (data, className = '') {
   //Getting the language dynamically
   const language =
@@ -78,6 +41,45 @@ const getJSON = function (url, msg = 'Something went wrong') {
     return response.json();
   });
 };
+
+///////////////////////////////////////
+// Old way of Ajax call
+/*const countryData = function(country){
+const request = new XMLHttpRequest();
+ request.open('GET',`https://restcountries.com/v3.1/name/${country}`);
+ request.send();
+
+ request.addEventListener('load' , function(){
+    const [data] = JSON.parse(this.responseText)
+    console.log(data);
+
+    const language = Object.values(data.languages)[0]
+    const {name:moneyName , symbol} = Object.values(data.currencies)[0]
+    
+    
+    const html = `
+    
+     <article class="country">
+          <img class="country__img" src="${data.flags.png}" />
+          <div class="country__data">
+            <h3 class="country__name">${data.name.common}</h3>
+            <h4 class="country__region"${data.region}</h4>
+            <p class="country__row"><span>👫</span>${+(data.population/1000000).toFixed(1)}M People</p>
+            <p class="country__row"><span>🗣️</span>${language}</p>
+            <p class="country__row"><span>💰</span>${moneyName}</p>
+          </div>
+        </article>
+
+    `;
+    countriesContainer.insertAdjacentHTML('beforeend',html);
+    countriesContainer.style.opacity = 1;
+ })}
+
+ countryData('bangladesh');
+ countryData('pakistan');
+ countryData('USA');*/
+
+
 
 /*const getCountryAndNeighbour = function (country) {
   //  AJAX call country 1
@@ -366,58 +368,29 @@ createImg('/img/img-1.jpg')
   });
   */
 
-//AsyncAwait
 
-// fetch(`https://restcountries.com/v3.1/name/${country}`).then((res)=> console.log(res))
-const getPosition = function () {
-  return new Promise(function (resolve, reject) {
-    navigator.geolocation.getCurrentPosition(resolve, reject);
-  });
-};
-const whereAmI = async function () {
-
+  // Running Promises in Parallel
+const get3Countries = async function (c1, c2, c3) {
   try {
-    // Geo location
-    const pos = await getPosition();
-    const { latitude: lat, longitude: lang } = pos.coords;
+    // const [data1] = await getJSON(
+    //   `https://restcountries.eu/rest/v2/name/${c1}`
+    // );
+    // const [data2] = await getJSON(
+    //   `https://restcountries.eu/rest/v2/name/${c2}`
+    // );
+    // const [data3] = await getJSON(
+    //   `https://restcountries.eu/rest/v2/name/${c3}`
+    // );
+    // console.log([data1.capital, data2.capital, data3.capital]);
 
-    // Reverse geocoding
-    const countryInf = await fetch(
-      `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lang}&apiKey=fd48a5c7752c432e8ac325c8b713d7fb`
-    );
-    if(!countryInf.ok) throw new Error('Something wrong with location')
-
-    const countryData = await countryInf.json();
-    const countryName = countryData.features[0].properties.country;
-    
-
-    // Country data
-    const res = await fetch(`https://restcountries.com/v3.1/name/${countryName}`);
-    const data = await res.json();
-    if(!res.ok) throw new Error('Something wrong with country')
-
-    renderCountry(data[0]);
-
-    // Returning something from whereAmI function
-    return `your in ${countryName}`
-    
-  } catch(err) {
-    console.error(`${err.message}`)
-    // Rejected promise returned from async
-    throw err
+    const data = await Promise.all([
+      getJSON(`https://restcountries.eu/rest/v2/name/${c1}`),
+      getJSON(`https://restcountries.eu/rest/v2/name/${c2}`),
+      getJSON(`https://restcountries.eu/rest/v2/name/${c3}`),
+    ]);
+    console.log(data.map(d => d[0].capital));
+  } catch (err) {
+    console.error(err);
   }
-   
 };
-
-// Using IIFe to get return data
-(
-  async function () {
-    try {
-      const iamIn = await whereAmI();
-      console.log(iamIn);
-    } catch(err) {
-      console.error(`${err.message}`);
-    }
-    console.log('grting location finished')
-  }
-)();
+get3Countries('portugal', 'canada', 'tanzania');
