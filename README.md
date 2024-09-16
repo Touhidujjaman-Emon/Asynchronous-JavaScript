@@ -740,7 +740,7 @@ get3Countries('portugal', 'canada', 'tanzania');
   ```js
   Promise.allSettled([Promise.resolve('Success'), Promise.reject('ERROR')])
   ```
- - **Promise.any[ES2021]**: Returns a promise that resolves as soon as one of the promises in the input array resolves.
+ - **Promise.any**: Returns a promise that resolves as soon as one of the promises in the input array resolves.
  - Example: 
 	```js 
   Promise.any([Promise.resolve('Success'), Promise.reject('ERROR')])
