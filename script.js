@@ -244,15 +244,10 @@ wait(2).then(() => {
 }).then(() => console.log('I waited for 1 second'))
 
 
-// Promisifying the geoLocation API
-const getPosition = function () {
-  return new Promise(function (resolve, reject) {
-    navigator.geolocation.getCurrentPosition(resolve,reject)
-  })
-}
+
 
 getPosition().then(res => console.log(res))
-*/
+
 
 const whereAmI = function (lat, lang) {
   // / Promisifying the geoLocation API
@@ -290,6 +285,7 @@ const whereAmI = function (lat, lang) {
 };
 
 whereAmI();
+*/
 
 // Coding challeng 2
 /* PART 1
@@ -325,6 +321,7 @@ image path. Set the network speed to “Fast 3G” in the dev tools Network tab,
 otherwise images load too fast
 */
 
+/*
 const wait = function (seconds) {
   return new Promise(function (resolve) {
     setTimeout(resolve, seconds * 1000);
@@ -367,3 +364,33 @@ createImg('/img/img-1.jpg')
   .catch(err => {
     console.log(err.message);
   });
+  */
+
+//AsyncAwait
+
+// fetch(`https://restcountries.com/v3.1/name/${country}`).then((res)=> console.log(res))
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+const whereAmI = async function () {
+// Geo location
+  const pos = await getPosition();
+  const { latitude: lat, longitude: lang } = pos.coords;
+
+  // Reverse geocoding
+  const countryInf = await fetch(
+    `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lang}&apiKey=fd48a5c7752c432e8ac325c8b713d7fb`
+  );
+
+  const countryData = await countryInf.json();
+  const countryName = countryData.features[0].properties.country;
+
+  // Country data
+  const res = await fetch(`https://restcountries.com/v3.1/name/${countryName}`);
+  const data = await res.json();
+
+  renderCountry(data[0]);
+};
+whereAmI();

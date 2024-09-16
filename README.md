@@ -555,3 +555,12 @@ createImg('/img/img-1.jpg')
     console.log(err.message);
   });
 ```
+## AsyncAwait
+### async
+- When I add the **async** keyword to a function, it tells JavaScript that the function returns a Promise.(so the it can run it on the background).
+- Even if I don't explicitly return a Promise. This allows the function to be executed asynchronously, and its return value can be awaited.
+
+### await
+- The **await** keyword is used inside an async function to **pause** the execution of the code until a Promise is resolved or rejected.(we have to pause it so it can execute non async code ).
+1. Pause the execution of the code at that point.
+2. Wait for the Promise to resolve or reject.
