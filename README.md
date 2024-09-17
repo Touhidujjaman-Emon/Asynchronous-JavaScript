@@ -562,6 +562,8 @@ createImg('/img/img-1.jpg')
 
 - When I add the **async** keyword to a function, it tells JavaScript that the function returns a Promise.(so the it can run it on the background).
 - Even if I don't explicitly return a Promise. This allows the function to be executed asynchronously, and its return value can be awaited.
+- Async function always **returns a promise.**
+- If I **don't return a value**, the promise will resolve with **undefined**.
 
 ### await
 
@@ -805,3 +807,21 @@ const loadNPause = async function () {
 loadNPause();
 ```
 ### Solution part 2
+
+```js
+const loadAll = async function (imgArr) {
+  try {
+    const imgs = imgArr.map( async function (img) {
+      return await createImg(img)
+     })
+      
+     const img = await Promise.all(imgs)
+     img.forEach((img) => { img.classList.add('parallel') })
+  } catch (err) {
+    console.log(err)
+  }
+ 
+}
+
+loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg'])
+```
