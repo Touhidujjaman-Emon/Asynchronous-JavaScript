@@ -744,9 +744,10 @@ get3Countries('portugal', 'canada', 'tanzania');
   ```
  - **Promise.any**: Returns a promise that resolves as soon as one of the promises in the input array resolves.
  - Example: 
-	```js 
+  ```js 
   Promise.any([Promise.resolve('Success'), Promise.reject('ERROR')])
   ```
+<<<<<<< HEAD
 
 ## Coding Challenge #3
 
@@ -825,3 +826,5 @@ const loadAll = async function (imgArr) {
 
 loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg'])
 ```
+=======
+>>>>>>> f6f7299efc6d2991f6f6017577547bbc1342e2e0
