@@ -51,7 +51,7 @@ const btn = document.querySelector('.btn');
 btn.addEventListener('click', () => console.log('hello'));
 ```
 
-- In this example the event listener just **waiting** for a button click event and wont doing anything on the **background** so it isnt asynchronous.
+- In this example the event listener just **waiting** for a button click event and wont do anything on the **background** so it isnt asynchronous.
 
 ## AJAX - Asynchronous javaScript and XML
 
